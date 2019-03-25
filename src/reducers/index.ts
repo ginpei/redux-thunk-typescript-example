@@ -1,5 +1,6 @@
 import { Store as ReduxStore } from 'redux';
-import { combineReducers, createStore as createReduxStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore as createReduxStore } from 'redux';
+import thunkMiddleware, { ThunkDispatch } from 'redux-thunk';
 import { ITaskState, reduceTask, TaskAction } from './tasks';
 
 export interface IState {
@@ -7,7 +8,7 @@ export interface IState {
 }
 
 export type Action = TaskAction;
-export type Dispatch = (action: Action) => void;
+export type Dispatch = ThunkDispatch<IState, void, Action>;
 export type Store = ReduxStore<IState, Action>;
 
 const rootReducer = combineReducers<IState>({
@@ -18,6 +19,7 @@ export default rootReducer;
 export function createStore () {
   const store = createReduxStore<IState, Action, {}, {}>(
     rootReducer,
+    applyMiddleware(thunkMiddleware),
   );
   return store;
 }

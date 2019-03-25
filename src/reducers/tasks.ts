@@ -1,3 +1,5 @@
+import { Dispatch } from '.';
+
 export interface ITask {
   id: string;
   title: string;
@@ -40,6 +42,17 @@ export function removeTask (task: ITask): ITaskActionRemove {
   return {
     task,
     type: Type.remove,
+  };
+}
+
+export function addAndRemoveTask (task: ITask, delay: number) {
+  return (dispatch: Dispatch) => {
+    console.log(`# add`);
+    dispatch(addTask(task));
+    setTimeout(() => {
+      console.log(`# remove`);
+      dispatch(removeTask(task));
+    }, 1000);
   };
 }
 

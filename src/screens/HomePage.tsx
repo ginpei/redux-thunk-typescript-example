@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, IState } from '../reducers';
-import { ITask } from '../reducers/tasks';
 import * as tasks from '../reducers/tasks';
+import { ITask } from '../reducers/tasks';
 
 interface ITaskProps {
   onRemoveClick: () => void;
@@ -61,14 +61,14 @@ function HomePage (props: HomePageProps) {
 export default connect<
   IHomePageStateProps,
   IHomePageDispatchProps,
-  {},
+  HomePageProps,
   IState
 >(
   (state) => ({
     tasks: state.tasks.list,
   }),
-  (dispatch) => ({
-    addTask: (task: ITask) => dispatch(tasks.addTask(task)),
-    removeTask: (task: ITask) => dispatch(tasks.removeTask(task)),
-  }),
+  {
+    addTask: (task: ITask) => tasks.addAndRemoveTask(task, 1000),
+    removeTask: (task: ITask) => tasks.removeTask(task),
+  },
 )(HomePage);
