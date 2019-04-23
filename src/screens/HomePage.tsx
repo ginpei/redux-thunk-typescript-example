@@ -42,7 +42,7 @@ function HomePage (props: HomePageProps) {
     <>
       <h1>Home Page</h1>
       <form onSubmit={onAddTaskSubmit}>
-        <button>Add</button>
+        <button>Add then Remove</button>
       </form>
       <div>
         <h1>Tasks</h1>
