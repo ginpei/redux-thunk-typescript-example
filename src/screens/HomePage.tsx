@@ -21,6 +21,7 @@ interface IHomePageStateProps {
   tasks: ITask[];
 }
 interface IHomePageDispatchProps {
+  addRemoveTask: (task: ITask) => void;
   addTask: (task: ITask) => void;
   removeTask: (task: ITask) => void;
 }
@@ -38,11 +39,24 @@ function HomePage (props: HomePageProps) {
     });
   };
 
+  const onAddRemoveClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    props.addRemoveTask({
+      id: String(Date.now()),
+      title: `Added ${Date.now()} and will be removed...`,
+    });
+  };
+
   return (
     <>
       <h1>Home Page</h1>
       <form onSubmit={onAddTaskSubmit}>
-        <button>Add then Remove</button>
+        <button>Add</button>
+        <button
+          onClick={onAddRemoveClick}
+          type="button"
+        >
+          Add then Remove
+        </button>
       </form>
       <div>
         <h1>Tasks</h1>
@@ -68,7 +82,8 @@ export default connect<
     tasks: state.tasks.list,
   }),
   {
-    addTask: (task: ITask) => tasks.addAndRemoveTask(task, 1000),
+    addRemoveTask: (task: ITask) => tasks.addAndRemoveTask(task, 1000),
+    addTask: (task: ITask) => tasks.addTask(task),
     removeTask: (task: ITask) => tasks.removeTask(task),
   },
 )(HomePage);
